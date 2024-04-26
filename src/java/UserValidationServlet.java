@@ -9,17 +9,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/UserValidationServlet")
 public class UserValidationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
+    
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
         if (isValidUser(username, password)) {
             // Redirect to customer.jsp on successful login for customer
+            //m
+            HttpSession session = request.getSession();
+            //m get user name from 
+            String name= request.getParameter("username");
+            session.setAttribute("user",name);
             response.sendRedirect("customer.jsp");
         } else {
             // Display error message on login failure
@@ -49,3 +55,4 @@ public class UserValidationServlet extends HttpServlet {
         return false;
     }
 }
+ 
