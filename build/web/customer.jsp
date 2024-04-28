@@ -47,14 +47,13 @@
     </style>
     </head>
     <body>
-        <center>
-            <%=session.getAttribute( "user")%>
-        </center>
+            
         <div class="header">
             <div class="shop">
             <h2>iShopLK</h2>
             </div>
             <div class="menu">
+                <%=session.getAttribute( "user")%>
                 <a href="./cart.jsp">Cart</a>
                 <a href="./index.jsp">Logout</a> 
             </div>
