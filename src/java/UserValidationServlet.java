@@ -21,9 +21,9 @@ public class UserValidationServlet extends HttpServlet {
 
         if (isValidUser(username, password)) {
             // Redirect to customer.jsp on successful login for customer
-            //m
+            
             HttpSession session = request.getSession();
-            //m get user name from 
+            // get user name from 
             String name= request.getParameter("username");
             session.setAttribute("user",name);
             response.sendRedirect("customer.jsp");

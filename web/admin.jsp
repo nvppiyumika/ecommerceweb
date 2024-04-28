@@ -70,15 +70,16 @@
     </style>
 </head>
 <body>
+     <%=session.getAttribute( "user")%>
     <div class="container">
         <h1>Welcome, Admin!</h1>
-        <div class="menu">
+        <div class="menu">      
             <a href="addproduct.jsp">Add Product</a>
             <a href="updateproduct.jsp">Update Product</a>
             <a href="deleteproduct.jsp">Delete Product</a>
             <a href="vieworders.jsp">View Orders</a>
             <a href="manageusers.jsp">Manage Users</a>
-            <a href="logoutservlet">Logout</a>
+            <a href="index.jsp">Logout</a>
         </div>
         <div class="content">
             <!-- Add content here based on admin actions -->
