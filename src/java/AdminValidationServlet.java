@@ -11,28 +11,39 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/UserValidationServlet")
-public class UserValidationServlet extends HttpServlet {
+@WebServlet("/AdminValidationServlet")
+public class AdminValidationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-
-        if (isValidUser(username, password)) {
-            // Redirect to customer.jsp on successful login for customer
-            
-            HttpSession session = request.getSession();
-            // get user name from 
-            String name= request.getParameter("username");
-            session.setAttribute("user",name);
-            response.sendRedirect("customer.jsp");
-        } else {
-            // Display error message on login failure
-            PrintWriter out = response.getWriter();
-            out.println("<html><body><h2>Login Failed. Invalid username or password.</h2></body></html>");
-        }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        //get the session
+        HttpSession session = request .getSession();
+        //clear
+         session.invalidate();
+         response.sendRedirect("index.jsp");
+        
     }
+
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String username = request.getParameter("username");
+    String password = request.getParameter("password");
+
+    if (isValidUser(username, password)) {
+        // Create a session and set the username attribute
+        HttpSession session = request.getSession();
+        session.setAttribute("user", username); // Setting the username attribute in the session
+
+        // Redirect to customer.jsp on successful login for customer
+        response.sendRedirect("admin.jsp");
+    } else {
+        // Display error message on login failure
+        PrintWriter out = response.getWriter();
+        out.println("<html><body><h2>Login Failed. Invalid username or password.</h2></body></html>");
+    }
+}
+
 
     private boolean isValidUser(String username, String password) {
         // JDBC URL, username, and password of your database
@@ -41,7 +52,7 @@ public class UserValidationServlet extends HttpServlet {
         String dbPassword = "";
 
         try (Connection connection = DriverManager.getConnection(jdbcURL, dbUsername, dbPassword)) {
-            String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+            String sql = "SELECT * FROM admins WHERE username = ? AND password = ?";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setString(1, username);
                 statement.setString(2, password);
@@ -55,4 +66,3 @@ public class UserValidationServlet extends HttpServlet {
         return false;
     }
 }
- 
