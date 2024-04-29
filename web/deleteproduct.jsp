@@ -4,6 +4,8 @@
     Author     : pasin
 --%>
 
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
 <head>
@@ -90,15 +92,31 @@
             padding: 10px;
             text-align: center;
         }
+        table {
+            width: 90%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
     </style>
 </head>
 <body>
     <div class="header">
             <div class="menu">
-            <a href="products.jsp">Products</a>
-            <a href="cart.jsp">Cart</a>
-            <a href="register.jsp">Register</a>
-            <a href="login.jsp">Login</a> 
+            <a href="DisplayProductsServlet">Products</a>
+            <a href="admin.jsp">Admin Dashboard</a>
         </div>
         </div>
     
@@ -119,8 +137,43 @@
     <% } %>
         </form>
     </div>
-    
-    
+        
+        <h1 align="center">Product Details</h1>
+        <center><table border='1'>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Product Type</th>
+            <th>Product Info</th>
+            <th>Product Price</th>
+            <th>Product Quantity</th>
+        </tr>
+        <%
+            ArrayList<HashMap<String, String>> productList = (ArrayList<HashMap<String, String>>) request.getAttribute("productList");
+            if (productList != null) {
+                for (HashMap<String, String> product : productList) {
+        %>
+        <tr>
+            <td><%= product.get("pid") %></td>
+            <td><%= product.get("pname") %></td>
+            <td><%= product.get("ptype") %></td>
+            <td><%= product.get("pinfo") %></td>
+            <td><%= product.get("pprice") %></td>
+            <td><%= product.get("pquantity") %></td>
+        </tr>
+        <%
+                }
+            } else {
+        %>
+        <tr>
+            <td colspan='2'>No products yet.</td>
+        </tr>
+        <%
+            }
+        %>
+    </table>
+    </center>
+<br><br>
     <div class="footer">
             <p>&copy; 2024 Your E-commerce Store</p>
         </div>
