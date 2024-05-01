@@ -25,6 +25,16 @@ public class DisplayProductsServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        displayProducts(request, response);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        displayProducts(request, response);
+    }
+
+    private void displayProducts(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
@@ -35,10 +45,18 @@ public class DisplayProductsServlet extends HttpServlet {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommerceweb", "root", "");
+            conn = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
 
-            String sql = "SELECT * FROM products";
-            stmt = conn.prepareStatement(sql);
+            String category = request.getParameter("category");
+            String sql;
+            if (category == null || category.equals("all")) {
+                sql = "SELECT * FROM products";
+                stmt = conn.prepareStatement(sql);
+            } else {
+                sql = "SELECT * FROM products WHERE ptype = ?";
+                stmt = conn.prepareStatement(sql);
+                stmt.setString(1, category);
+            }
 
             rs = stmt.executeQuery();
 
@@ -50,7 +68,6 @@ public class DisplayProductsServlet extends HttpServlet {
                 product.setInfo(rs.getString("pinfo"));
                 product.setPrice(rs.getDouble("pprice"));
                 product.setQuantity(rs.getInt("pquantity"));
-                // You may need to handle the image retrieval here
                 productList.add(product);
             }
 
