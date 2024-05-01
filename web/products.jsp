@@ -65,6 +65,27 @@
     .buttons button:hover {
       background-color: #555;
     }
+    .category-filter {
+    margin-bottom: 20px;
+  }
+  .category-filter label {
+    font-weight: bold;
+  }
+  .category-filter select {
+    padding: 5px;
+    margin-right: 10px;
+  }
+  .category-filter button {
+    padding: 8px 16px;
+    background-color: #555;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .category-filter button:hover {
+    background-color: #333;
+  }
   </style>
 </head>
 <body>
@@ -74,6 +95,21 @@
     <div class="container">
       <div class="content">
         <h2>Products</h2>
+        <div class="category-filter">
+      <form action="DisplayProductsServlet" method="post">
+        <label for="category">Select Category:</label>
+        <select name="category" id="category">
+          <option value="all">All</option>
+          <option value="mobile">MOBILE</option>
+	  <option value="tv">TV</option>
+	  <option value="camera">CAMERA</option>
+	  <option value="laptop">LAPTOP</option>
+	  <option value="tablet">TABLET</option>
+	  <option value="speaker">SPEAKER</option>
+        </select>
+        <button type="submit">Filter</button>
+      </form>
+    </div>
         <div class="product-grid">
           <c:forEach var="product" items="${productList}">
             <div class="product-card">
@@ -85,7 +121,7 @@
                 <p>Price: $${product.price}</p>
               </div>
               <div class="buttons">
-                <button>Add to Cart</button>
+                  <button>Add to Cart</button>
                 <button>Buy Now</button>
               </div>
             </div>
